@@ -11,69 +11,6 @@ namespace homework_5_bsa2018.DAL
         {
             context.Database.EnsureCreated();
 
-        //    if (!context.Pilots.Any())
-        //    {
-        //        List<Pilot> Pilots = new List<Pilot>()
-        //{
-        //    new Pilot()
-        //        {
-        //            FirstName ="Petro",
-        //            LastName ="Poroshenko",
-        //            Experience =3,
-        //        },
-        //    new Pilot()
-        //        {
-        //            FirstName ="Oleg",
-        //            LastName ="Lyashko",
-        //            Experience =5,
-        //        },
-        //     new Pilot()
-        //        {
-        //            FirstName ="Andriy",
-        //            LastName ="Beletsiy",
-        //            Experience =10,
-        //        }
-        //};
-
-        //    }
-        //    context.SaveChanges();
-
-        //    if (!context.Stewardesses.Any())
-        //    {
-        //        List<Stewardess> Stewardesses = new List<Stewardess>()
-        //{
-        //     new Stewardess()
-        //            {
-        //                FirstName = "Yulya",
-        //                LastName = "Tymoshenko",
-        //                DateOfBirth = DateTime.Parse("05/05/1980")
-        //            },
-
-        //     new Stewardess()
-        //            {
-        //                FirstName = "Iryna",
-        //                LastName = "Gerashenko",
-        //                DateOfBirth = DateTime.Parse("05/05/1965")
-        //            },
-        //      new Stewardess()
-        //            {
-        //                FirstName = "Natalia",
-        //                LastName = "Korolevska",
-        //                DateOfBirth = DateTime.Parse("05/05/1975")
-        //            },
-        //       new Stewardess()
-        //            {
-        //                FirstName = "Nadiya",
-        //                LastName = "Savchenko",
-        //                DateOfBirth = DateTime.Parse("05/05/1980")
-        //            }
-        //};
-
-        //    }
-        //    context.SaveChanges();
-
-
-
             if (!context.Tickets.Any())
             {
                 Console.WriteLine("TICKETS INITIALIZATING");

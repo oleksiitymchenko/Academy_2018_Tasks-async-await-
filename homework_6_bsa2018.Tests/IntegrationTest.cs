@@ -42,8 +42,8 @@ namespace homework_6_bsa2018.Tests
         {
             Start();
             var entity = controller.Get(1);
-            Assert.IsType<CrewDTO>(entity.Value);
-            Assert.Equal(200, entity.StatusCode);
+            Assert.IsType<CrewDTO>(entity.Result.Value);
+            Assert.Equal(200, entity.Result.StatusCode);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace homework_6_bsa2018.Tests
         {
             Start();
             var entity = controller.Get(-34);
-            Assert.Equal(400, entity.StatusCode.Value);
+            Assert.Equal(400, entity.Result.StatusCode.Value);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace homework_6_bsa2018.Tests
             var crew = new CrewDTO() {PilotId = 3, StewardressIds = new List<int>(){4,5} };
             var entity = controller.Post(crew);
             Assert.Equal(contextAirport.Crews.LastOrDefault().Pilot.Id, crew.PilotId);
-            Assert.Equal(HttpStatusCode.OK, entity.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, entity.Result.StatusCode);
             contextAirport.Crews.Remove(contextAirport.Crews.LastOrDefault());
         }
 
@@ -71,7 +71,7 @@ namespace homework_6_bsa2018.Tests
             Start();
             var crew = new CrewDTO() { StewardressIds = new List<int>() { 4, 5 } };
             HttpResponseMessage entity = new HttpResponseMessage();
-            entity = controller.Post(crew);
+            entity = controller.Post(crew).Result;
             Assert.Equal(HttpStatusCode.BadRequest, entity.StatusCode);
             contextAirport.Crews.Remove(contextAirport.Crews.LastOrDefault());
         }
@@ -82,7 +82,7 @@ namespace homework_6_bsa2018.Tests
             Start();
             var crew = new CrewDTO() {PilotId =3, StewardressIds = new List<int>() { 4, 5 } };
             crewService.Create(crew);
-            HttpResponseMessage responseMessage = controller.Delete(contextAirport.Crews.LastOrDefault().Id);
+            HttpResponseMessage responseMessage = controller.Delete(contextAirport.Crews.LastOrDefault().Id).Result;
             Assert.True(responseMessage.StatusCode == HttpStatusCode.OK);
         }
 
@@ -90,7 +90,7 @@ namespace homework_6_bsa2018.Tests
         public void DeleteEntity_WhenIdIsInCorrect_ReturnsStatusCode400()
         {
             Start();
-            HttpResponseMessage responseMessage = controller.Delete(-1);
+            HttpResponseMessage responseMessage = controller.Delete(-1).Result;
             Assert.True(responseMessage.StatusCode == HttpStatusCode.BadRequest);
         }
 

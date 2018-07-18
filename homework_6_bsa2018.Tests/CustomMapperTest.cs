@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using homework_5_bsa2018.DAL.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace homework_6_bsa2018.Tests
 {
@@ -24,12 +25,12 @@ namespace homework_6_bsa2018.Tests
 
             IService<CrewDTO> service = new CrewService(mockUnitOfWork.Object);
             mockUnitOfWork.Setup(o => o.Pilots.GetAsync(1))
-                .Returns(pilot);
+                .Returns(Task.FromResult(pilot));
             mockUnitOfWork.Setup(o => o.SaveAsync());
             mockUnitOfWork.Setup(o => o.Stewardesses.GetAsync(1))
-                .Returns(stew1);
+                .Returns(Task.FromResult(stew1));
             mockUnitOfWork.Setup(o => o.Stewardesses.GetAsync(2))
-                .Returns(stew2);
+                .Returns(Task.FromResult(stew2));
 
             MethodInfo methodInfo = typeof(CrewService).GetMethod("TransformCrew", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -56,12 +57,12 @@ namespace homework_6_bsa2018.Tests
 
             IService<CrewDTO> service = new CrewService(mockUnitOfWork.Object);
             mockUnitOfWork.Setup(o => o.Pilots.GetAsync(1))
-                .Returns((Pilot)null);
+                .Returns((Task<Pilot>)null);
             mockUnitOfWork.Setup(o => o.SaveAsync());
             mockUnitOfWork.Setup(o => o.Stewardesses.GetAsync(1))
-                .Returns((Stewardess)null);
+                .Returns((Task<Stewardess>)null);
             mockUnitOfWork.Setup(o => o.Stewardesses.GetAsync(2))
-                .Returns((Stewardess)null);
+                .Returns((Task<Stewardess>)null);
 
             MethodInfo methodInfo = typeof(CrewService).GetMethod("TransformCrew", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -82,7 +83,7 @@ namespace homework_6_bsa2018.Tests
             IService<PlaneDTO> service = new PlaneService(mockUnitOfWork.Object);
             
             mockUnitOfWork.Setup(o => o.PlaneTypes.GetAsync(1))
-                .Returns(planeType);
+                .Returns(Task.FromResult(planeType));
 
             MethodInfo methodInfo = typeof(PlaneService).GetMethod("TransformPlane", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -113,7 +114,7 @@ namespace homework_6_bsa2018.Tests
             IService<PlaneDTO> service = new PlaneService(mockUnitOfWork.Object);
 
             mockUnitOfWork.Setup(o => o.PlaneTypes.GetAsync(1))
-                .Returns((PlaneType)null);
+                .Returns((Task<PlaneType>)null);
 
             MethodInfo methodInfo = typeof(PlaneService)
                 .GetMethod("TransformPlane", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -149,9 +150,9 @@ namespace homework_6_bsa2018.Tests
             IService<FlightDTO> service = new FlightService(mockUnitOfWork.Object);
 
             mockUnitOfWork.Setup(o => o.Tickets.GetAsync(1))
-                .Returns(ticket1);
+                .Returns(Task.FromResult(ticket1));
             mockUnitOfWork.Setup(o => o.Tickets.GetAsync(2))
-               .Returns(ticket2);
+               .Returns(Task.FromResult(ticket2));
 
             MethodInfo methodInfo = typeof(FlightService).GetMethod("TransformFlight", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -196,9 +197,9 @@ namespace homework_6_bsa2018.Tests
             IService<FlightDTO> service = new FlightService(mockUnitOfWork.Object);
 
             mockUnitOfWork.Setup(o => o.Tickets.GetAsync(1))
-                .Returns((Ticket)null);
+                .Returns((Task<Ticket>)null);
             mockUnitOfWork.Setup(o => o.Tickets.GetAsync(2))
-               .Returns((Ticket)null);
+               .Returns((Task<Ticket>)null);
 
             MethodInfo methodInfo = typeof(FlightService).GetMethod("TransformFlight", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -247,9 +248,9 @@ namespace homework_6_bsa2018.Tests
             IService<DepartureDTO> service = new DepartureService(mockUnitOfWork.Object);
 
             mockUnitOfWork.Setup(o => o.Planes.GetAsync(1))
-                .Returns(plane);
+                .Returns(Task.FromResult(plane));
             mockUnitOfWork.Setup(o => o.Crews.GetAsync(1))
-               .Returns(crew);
+               .Returns(Task.FromResult(crew));
 
             MethodInfo methodInfo = typeof(DepartureService).GetMethod("TransformDeparture", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -268,9 +269,9 @@ namespace homework_6_bsa2018.Tests
         {
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(o => o.Crews.GetAsync(1))
-               .Returns((Crew)null);
+               .Returns((Task<Crew>)null);
             mockUnitOfWork.Setup(o => o.Planes.GetAsync(1))
-               .Returns((Plane)null);
+               .Returns((Task<Plane>)null);
 
             var departuredto = new DepartureDTO()
             {

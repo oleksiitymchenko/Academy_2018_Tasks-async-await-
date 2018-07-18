@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Threading.Tasks;
 using homework_5_bsa2018.BLL.Interfaces;
 using homework_5_bsa2018.Controllers;
 using homework_5_bsa2018.Shared.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using Moq;
 using Xunit;
 
@@ -18,12 +20,12 @@ namespace homework_6_bsa2018.Tests
         {
             var ServiceMock = new Mock<IService<PilotDTO>>();
             ServiceMock.Setup(s => s.GetAll())
-                .Returns(new List<PilotDTO>()
-                { new PilotDTO {Id=1,FirstName="Sasha",LastName="Sidorov",Experience=5 } });
+                .Returns(Task.FromResult( new List<PilotDTO>()
+                { new PilotDTO {Id=1,FirstName="Sasha",LastName="Sidorov",Experience=5 } }.AsEnumerable()));
 
             PilotsController controller = new PilotsController(ServiceMock.Object);
 
-            OkObjectResult message = (OkObjectResult)controller.Get();
+            OkObjectResult message = (OkObjectResult)controller.Get().Result;
 
             Assert.Equal(200, message.StatusCode.Value);
         }
@@ -43,7 +45,7 @@ namespace homework_6_bsa2018.Tests
 
             var valid = Validator.TryValidateObject(pilot, context, result, true);
 
-            var message = controller.Put(Id,pilot);
+            var message = controller.Put(Id,pilot).Result;
 
             Assert.True(valid);
             Assert.Equal(HttpStatusCode.OK, message.StatusCode);
@@ -66,7 +68,7 @@ namespace homework_6_bsa2018.Tests
 
             var valid = Validator.TryValidateObject(pilot, context, result, false);
 
-            var message = controller.Put(Id, pilot);
+            var message = controller.Put(Id, pilot).Result;
 
 
             Assert.False(valid);

@@ -20,7 +20,7 @@ namespace homework_6_bsa2018.Tests
             }.AsQueryable();
 
         [Fact]
-        public void UpdateTestPilots_When_WrongId()
+        public async void UpdateTestPilots_When_WrongId()
         { 
             var mockSet = new Mock<DbSet<Pilot>>();
             mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -33,7 +33,7 @@ namespace homework_6_bsa2018.Tests
 
             var repository = new PilotRepository(mockContext.Object);
 
-            Assert.Throws<ArgumentNullException>(() => repository.Update(-1, data.FirstOrDefault()));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => repository.Update(-1, data.FirstOrDefault()));
         }
 
         [Fact]
