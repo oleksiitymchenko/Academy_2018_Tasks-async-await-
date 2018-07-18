@@ -18,10 +18,10 @@ namespace homework_5_bsa2018.BLL.Services
 
         public IEnumerable<PlaneTypeDTO> GetAll()
             => Mapper.Map<List<PlaneTypeDTO>>
-            (_unitOfWork.PlaneTypes.GetAll());
+            (_unitOfWork.PlaneTypes.GetAllAsync());
 
         public PlaneTypeDTO Get(int id) =>
-            Mapper.Map<PlaneTypeDTO>(_unitOfWork.PlaneTypes.Get(id));
+            Mapper.Map<PlaneTypeDTO>(_unitOfWork.PlaneTypes.GetAsync(id));
 
         public void Create(PlaneTypeDTO pltype)
         {

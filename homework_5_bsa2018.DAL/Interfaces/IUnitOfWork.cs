@@ -1,4 +1,5 @@
 ﻿using homework_5_bsa2018.DAL.Models;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.DAL.Interfaces
 {
@@ -13,6 +14,6 @@ namespace homework_5_bsa2018.DAL.Interfaces
         IRepository<Stewardess> Stewardesses { get; }
         IRepository<Ticket> Tickets { get; }
 
-        void Save();
+        Task Save();
     }
 }

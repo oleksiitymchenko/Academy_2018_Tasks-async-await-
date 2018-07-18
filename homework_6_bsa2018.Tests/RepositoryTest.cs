@@ -68,7 +68,7 @@ namespace homework_6_bsa2018.Tests
 
             var repository = new PilotRepository(mockContext.Object);
 
-            var result = repository.Get(-1);
+            var result = repository.GetAsync(-1);
 
             Assert.Null(result);
          }
@@ -88,7 +88,7 @@ namespace homework_6_bsa2018.Tests
             mockContext.Setup(c => c.Pilots.Find(1)).Returns(mockSet.Object.Find(1));
             var repository = new PilotRepository(mockContext.Object);
             
-            var result = repository.Get(1);
+            var result = repository.GetAsync(1);
 
             Assert.Null(result);
         }

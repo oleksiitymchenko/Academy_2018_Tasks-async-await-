@@ -6,6 +6,7 @@ using homework_5_bsa2018.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Services
 {
@@ -18,48 +19,47 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<CrewDTO> GetAll() {
+        public Task<IEnumerable<CrewDTO>> GetAll() {
             var x = Mapper.Map<List<CrewDTO>>
-           (_unitOfWork.Crews.GetAll());
+           (_unitOfWork.Crews.GetAllAsync());
             return x;
         }
 
-        public CrewDTO Get(int id) =>
-            Mapper.Map<CrewDTO>(_unitOfWork.Crews.Get(id));
+        public Task<CrewDTO> Get(int id) =>
+            Mapper.Map<CrewDTO>(_unitOfWork.Crews.GetAsync(id));
         
-        public void Create(CrewDTO crew)
+        public async Task Create(CrewDTO crew)
         {
             var x = TransformCrew(crew);
-            _unitOfWork.Crews.Create(x);
-            _unitOfWork.Save();
+            await _unitOfWork.Crews.Create(x);
+            await _unitOfWork.Save();
         }
 
-        public void Update(int id, CrewDTO crew)
+        public async Task Update(int id, CrewDTO crew)
         {
-            _unitOfWork.Crews.Update(id, TransformCrew(crew));
-            _unitOfWork.Save();
+            await _unitOfWork.Crews.Update(id, await TransformCrew(crew));
+            await _unitOfWork.Save();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _unitOfWork.Crews.Delete(id);
-            _unitOfWork.Save();
+            await _unitOfWork.Crews.Delete(id);
+            await _unitOfWork.Save();
 
         }
 
-
-        private Crew TransformCrew(CrewDTO crew)
+        private async Task<Crew> TransformCrew(CrewDTO crew)
         {
 
-            var pilot = _unitOfWork.Pilots.Get(crew.PilotId);
+            var pilot = await _unitOfWork.Pilots.GetAsync(crew.PilotId);
             if (pilot==null) throw new ArgumentNullException();
 
             var stewardesses = crew.StewardressIds
-                .Select(s => {
-                    var stew = _unitOfWork.Stewardesses.Get(s);
+                .Select(async s => {
+                    var stew = await _unitOfWork.Stewardesses.GetAsync(s);
                     if (stew != null) return stew;
                         else throw new ArgumentNullException();
-            }).ToList();
+            });
 
             return new Crew()
             {

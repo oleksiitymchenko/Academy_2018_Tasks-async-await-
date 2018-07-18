@@ -19,10 +19,10 @@ namespace homework_5_bsa2018.BLL.Services
 
         public IEnumerable<DepartureDTO> GetAll()
             => Mapper.Map<List<DepartureDTO>>
-            (_unitOfWork.Departures.GetAll());
+            (_unitOfWork.Departures.GetAllAsync());
 
         public DepartureDTO Get(int id) =>
-            Mapper.Map<DepartureDTO>(_unitOfWork.Departures.Get(id));
+            Mapper.Map<DepartureDTO>(_unitOfWork.Departures.GetAsync(id));
 
         public void Create(DepartureDTO departure)
         {
@@ -45,8 +45,8 @@ namespace homework_5_bsa2018.BLL.Services
         private Departure TransformDeparture(DepartureDTO departure)
         {
             var departureTime = DateTime.Parse(departure.DepartureTime);
-            var plane = _unitOfWork.Planes.Get(departure.PlaneId);
-            var crew = _unitOfWork.Crews.Get(departure.CrewId);
+            var plane = _unitOfWork.Planes.GetAsync(departure.PlaneId);
+            var crew = _unitOfWork.Crews.GetAsync(departure.CrewId);
             if (crew == null || plane == null) throw new ArgumentNullException();
 
             return new Departure()

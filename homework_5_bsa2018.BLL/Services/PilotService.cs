@@ -18,10 +18,10 @@ namespace homework_5_bsa2018.BLL.Services
 
         public IEnumerable<PilotDTO> GetAll()
             => Mapper.Map<List<PilotDTO>>
-            (_unitOfWork.Pilots.GetAll());
+            (_unitOfWork.Pilots.GetAllAsync());
 
         public PilotDTO Get(int id) =>
-            Mapper.Map<PilotDTO>(_unitOfWork.Pilots.Get(id));
+            Mapper.Map<PilotDTO>(_unitOfWork.Pilots.GetAsync(id));
 
         public void Create(PilotDTO pilot)
         {

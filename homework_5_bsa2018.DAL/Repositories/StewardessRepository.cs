@@ -1,7 +1,9 @@
 ﻿using homework_5_bsa2018.DAL.Interfaces;
 using homework_5_bsa2018.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.DAL.Repositories
 {
@@ -14,23 +16,24 @@ namespace homework_5_bsa2018.DAL.Repositories
             db = context;
         }
 
-        public IEnumerable<Stewardess> GetAll() =>
-            db.Stewardesses;
+        public async Task<IEnumerable<Stewardess>> GetAllAsync() =>
+           await db.Stewardesses.ToListAsync();
 
-        public Stewardess Get(int id) => db.Stewardesses.Find(id);
+        public async Task<Stewardess> GetAsync(int id) => 
+            await db.Stewardesses.FindAsync(id);
 
-        public void Create(Stewardess stewardess)
+        public async Task Create(Stewardess stewardess)
         {
-            db.Stewardesses.Add(stewardess);
+            await db.Stewardesses.AddAsync(stewardess);
         }
 
-        public void Update(int id, Stewardess stew)
+        public async Task Update(int id, Stewardess stew)
         {
             var item = db.Stewardesses.Find(id);
             if (item == null) throw new ArgumentNullException();
 
             db.Stewardesses.Remove(item);
-                db.Stewardesses.Add(stew);
+             await   db.Stewardesses.AddAsync(stew);
             
         }
 

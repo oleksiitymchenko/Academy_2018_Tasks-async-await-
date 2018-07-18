@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Interfaces
 {
     public interface IService<T>
     {
-        IEnumerable<T> GetAll();
-        T Get(int id);
-        void Create(T crew);
-        void Update(int id, T crew);
-        void Delete(int id);
+        Task<IEnumerable<T>> GetAll();
+        Task<T> Get(int id);
+        Task Create(T crew);
+        Task Update(int id, T crew);
+        Task Delete(int id);
     }
 }

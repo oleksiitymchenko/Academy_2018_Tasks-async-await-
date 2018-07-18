@@ -2,6 +2,7 @@
 using homework_5_bsa2018.DAL.Models;
 using homework_5_bsa2018.DAL.Repositories;
 using System;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.DAL
 {
@@ -90,9 +91,9 @@ namespace homework_5_bsa2018.DAL
             }
         }
 
-        public void Save()
+        public async Task Save()
         {
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
         public UnitOfWork(AirportContext dataSource)

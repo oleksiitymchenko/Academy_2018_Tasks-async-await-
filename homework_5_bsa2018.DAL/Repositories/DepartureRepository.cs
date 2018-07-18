@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.DAL.Repositories
 {
@@ -16,27 +17,26 @@ namespace homework_5_bsa2018.DAL.Repositories
             db = context;
         }
 
-        public IEnumerable<Departure> GetAll() =>
-            db.Departures.Include(c=>c.Plane).Include(c=>c.Crew);
+        public async Task<IEnumerable<Departure>> GetAllAsync() =>
+            await db.Departures.Include(c=>c.Plane).Include(c=>c.Crew).ToListAsync();
 
-        public Departure Get(int id) => 
-            GetAll().FirstOrDefault(item => item.Id == id);
+        public async Task<Departure> GetAsync(int id) => 
+            (await GetAllAsync()).FirstOrDefault(item => item.Id == id);
 
-        public void Create(Departure departure)
+        public async Task Create(Departure departure)
         {
-            db.Departures.Add(departure);
+            await db.Departures.AddAsync(departure);
         }
 
 
-        public void Update(int id, Departure departure)
+        public async Task Update(int id, Departure departure)
         {
             var item = db.Departures.Find(id);
             if (item == null) throw new ArgumentNullException();
-            db.Departures.Remove(item);
-                db.Departures.Add(departure);
+                db.Departures.Remove(item);
+                await  db.Departures.AddAsync(departure);
             }
         
-
 
         public void Delete(int id)
         {

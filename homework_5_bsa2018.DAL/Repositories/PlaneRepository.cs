@@ -2,6 +2,8 @@
 using homework_5_bsa2018.DAL.Models;
 using System.Collections.Generic;
 using System;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.DAL.Repositories
 {
@@ -14,23 +16,24 @@ namespace homework_5_bsa2018.DAL.Repositories
             db = context;
         }
 
-        public IEnumerable<Plane> GetAll() =>
-            db.Planes;
+        public async Task<IEnumerable<Plane>> GetAllAsync() =>
+            await db.Planes.ToListAsync();
 
-        public Plane Get(int id) => db.Planes.Find(id);
+        public async Task<Plane> GetAsync(int id) =>
+            await db.Planes.FindAsync(id);
 
-        public void Create(Plane plane)
+        public async Task Create(Plane plane)
         {
-            db.Add(plane);
+            await db.AddAsync(plane);
         }
 
-        public void Update(int id, Plane plane)
+        public async Task Update(int id, Plane plane)
         {
             var item = db.Planes.Find(id);
             if (item == null) throw new ArgumentNullException();
 
             db.Planes.Remove(item);
-            db.Planes.Add(plane);
+            await db.Planes.AddAsync(plane);
             
         }
 

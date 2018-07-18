@@ -20,10 +20,10 @@ namespace homework_5_bsa2018.BLL.Services
 
         public IEnumerable<FlightDTO> GetAll()
             => Mapper.Map<List<FlightDTO>>
-            (_unitOfWork.Flights.GetAll());
+            (_unitOfWork.Flights.GetAllAsync());
 
         public FlightDTO Get(int id) =>
-            Mapper.Map<FlightDTO>(_unitOfWork.Flights.Get(id));
+            Mapper.Map<FlightDTO>(_unitOfWork.Flights.GetAsync(id));
 
         public void Create(FlightDTO flight)
         {
@@ -49,7 +49,7 @@ namespace homework_5_bsa2018.BLL.Services
             var endtime = DateTime.Parse(flight.FinishTime);
             var ticketsList = flight.TicketIds
                 .Select(s => {
-                var ticket = _unitOfWork.Tickets.Get(s);
+                var ticket = _unitOfWork.Tickets.GetAsync(s);
                 if (ticket != null) return ticket;
                 else throw new ArgumentNullException();
             }).ToList();

@@ -19,10 +19,10 @@ namespace homework_5_bsa2018.BLL.Services
 
         public IEnumerable<PlaneDTO> GetAll()
             => Mapper.Map<List<PlaneDTO>>
-            (_unitOfWork.Planes.GetAll());
+            (_unitOfWork.Planes.GetAllAsync());
 
         public PlaneDTO Get(int id) =>
-            Mapper.Map<PlaneDTO>(_unitOfWork.Planes.Get(id));
+            Mapper.Map<PlaneDTO>(_unitOfWork.Planes.GetAsync(id));
 
         public void Create(PlaneDTO plane)
         {
@@ -44,7 +44,7 @@ namespace homework_5_bsa2018.BLL.Services
 
         private Plane TransformPlane(PlaneDTO plane)
         {
-            var type = _unitOfWork.PlaneTypes.Get(plane.TypePlaneId);
+            var type = _unitOfWork.PlaneTypes.GetAsync(plane.TypePlaneId);
             if (type == null) throw new ArgumentNullException();
             var lifetime = TimeSpan.Parse(plane.LifeTime);
             var created = DateTime.Parse(plane.Created);

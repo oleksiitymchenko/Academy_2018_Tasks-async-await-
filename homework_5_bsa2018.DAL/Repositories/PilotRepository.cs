@@ -3,6 +3,7 @@ using homework_5_bsa2018.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 
 namespace homework_5_bsa2018.DAL.Repositories
@@ -16,30 +17,30 @@ namespace homework_5_bsa2018.DAL.Repositories
             db = context;
         }
 
-        public IEnumerable<Pilot> GetAll() =>
-            db.Pilots;
+        public async Task<IEnumerable<Pilot>> GetAllAsync() =>
+            await db.Pilots.ToListAsync();
 
-        public Pilot Get(int id) =>
-            db.Pilots.Find(id);
+        public async Task<Pilot> GetAsync(int id) =>
+            (await GetAllAsync()).FirstOrDefault(item => item.Id == id);
 
-        public void Create(Pilot pilot)
+        public async Task Create(Pilot pilot)
         {
-            db.Pilots.Add(pilot);
+            await db.Pilots.AddAsync(pilot);
         }
 
-        public void Update(int id, Pilot pilot)
+        public async Task Update(int id, Pilot pilot)
         {
             var item = db.Pilots.Find(id);
             if (item == null) throw new ArgumentNullException();
 
             db.Pilots.Remove(item);
-            db.Pilots.Add(pilot);
+            await db.Pilots.AddAsync(pilot);
             
         }
 
         public void Delete(int id)
         {
-            var item = db.Pilots.Find(id);
+            var item = db.Pilots.FirstOrDefaultAsync(p => p.Id == id).Result;
             if (item == null) throw new ArgumentNullException();
             db.Pilots.Remove(item);
         }

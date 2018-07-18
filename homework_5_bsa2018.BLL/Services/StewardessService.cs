@@ -18,10 +18,10 @@ namespace homework_5_bsa2018.BLL.Services
 
         public IEnumerable<StewardessDTO> GetAll()
             => Mapper.Map<List<StewardessDTO>>
-            (_unitOfWork.Stewardesses.GetAll());
+            (_unitOfWork.Stewardesses.GetAllAsync());
 
         public StewardessDTO Get(int id) =>
-            Mapper.Map<StewardessDTO>(_unitOfWork.Stewardesses.Get(id));
+            Mapper.Map<StewardessDTO>(_unitOfWork.Stewardesses.GetAsync(id));
 
         public void Create(StewardessDTO stew)
         {
