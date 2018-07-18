@@ -18,7 +18,7 @@ namespace homework_5_bsa2018.Controllers
 
         // GET api/TEntities
         [HttpGet]
-        public async Task<OkObjectResult> Get()
+        public virtual async Task<OkObjectResult> Get()
         {
             var collectionDTO = await _service.GetAll();
             if (collectionDTO == null) return new OkObjectResult(StatusCode(400));
@@ -27,7 +27,7 @@ namespace homework_5_bsa2018.Controllers
 
         // GET api/TEntities/:id
         [HttpGet("{id}")]
-        public async Task<OkObjectResult> Get(int id)
+        public virtual async Task<OkObjectResult> Get(int id)
         {
             var collectionDTO = await _service.Get(id);
             if (collectionDTO == null) return new OkObjectResult(StatusCode(400)); 
@@ -36,7 +36,7 @@ namespace homework_5_bsa2018.Controllers
 
         // POST api/TEntities
         [HttpPost]
-        public async Task<HttpResponseMessage> Post([FromBody]TEntityDTO itemDTO)
+        public virtual async Task<HttpResponseMessage> Post([FromBody]TEntityDTO itemDTO)
         {
             if (ModelState.IsValid == false)
             {
@@ -55,7 +55,7 @@ namespace homework_5_bsa2018.Controllers
 
         //PUT api/TEntities/:id
         [HttpPut("{id}")]
-        public async Task<HttpResponseMessage> Put(int id, [FromBody]TEntityDTO itemDTO)
+        public virtual async Task<HttpResponseMessage> Put(int id, [FromBody]TEntityDTO itemDTO)
         {
             if (ModelState.IsValid == false)
             {
@@ -74,7 +74,7 @@ namespace homework_5_bsa2018.Controllers
 
         //DELETE api/TEntity/:id
         [HttpDelete("{id}")]
-        public async Task<HttpResponseMessage> Delete(int id)
+        public virtual async Task<HttpResponseMessage> Delete(int id)
         {
             try
             {

@@ -1,33 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Timers;
 using System.Threading.Tasks;
-
+using homework_5_bsa2018.Shared.DTOs;
+using homework_5_bsa2018.BLL.Interfaces;
 
 namespace homework_5_bsa2018.BLL
 {
     public class Helpers
     {
-        private Timer _timer;
+        private Timer timer;
+        private IService<FlightDTO> _service;
 
-        public Helpers()
+        public Helpers(IService<FlightDTO> service, int interval) 
         {
-            _timer = new Timer(interval: 300);
+            timer = new Timer(interval: interval);
+            timer.AutoReset = false;
+            _service = service;
         }
 
-        public async Task<string> FakeDelay()
+        public async Task<IEnumerable<FlightDTO>> GetFlightsDelay()
         {
-            TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
+            var tcs = new TaskCompletionSource<IEnumerable<FlightDTO>>();
 
-            _timer.Elapsed += (obj, args) =>
-              { 
-                  tcs.SetResult("Result");
-                  _timer.Enabled = false;
-              };
+            timer.Enabled = true;
 
-            _timer.Enabled = true;
+            ElapsedEventHandler callback = 
+                async (obj, args) =>
+            {
+            tcs.SetResult(await _service.GetAll());
+                timer.Enabled = false;
+            };
 
+            timer.Elapsed += callback;
+            
             return await tcs.Task;
         }
     }

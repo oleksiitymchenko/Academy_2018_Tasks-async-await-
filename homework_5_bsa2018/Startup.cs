@@ -39,7 +39,6 @@ namespace homework_5_bsa2018
             services.AddScoped<IService<DepartureDTO>, DepartureService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<SeedData>();
-            services.AddSingleton<MapperInitializator>();
             var connection = ConnectionString.Value;
             services.AddDbContext<AirportContext>(options => options.UseSqlServer(connection));
 
