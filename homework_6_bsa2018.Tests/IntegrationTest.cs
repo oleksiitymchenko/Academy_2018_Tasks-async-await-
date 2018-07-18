@@ -47,11 +47,11 @@ namespace homework_6_bsa2018.Tests
         }
 
         [Fact]
-        public void GetEntity_WhenIdIsIncorrect_ReturnsNull()
+        public async void GetEntity_WhenIdIsIncorrect_ReturnsNull()
         {
             Start();
-            var entity = controller.Get(-34);
-            Assert.Equal(400, entity.Result.StatusCode.Value);
+            var entity = await controller.Get(-1);
+            Assert.Equal(400, entity.StatusCode.Value);
         }
 
         [Fact]
@@ -59,9 +59,9 @@ namespace homework_6_bsa2018.Tests
         {
             Start();
             var crew = new CrewDTO() {PilotId = 3, StewardressIds = new List<int>(){4,5} };
-            var entity = controller.Post(crew);
+            var entity = controller.Post(crew).Result;
             Assert.Equal(contextAirport.Crews.LastOrDefault().Pilot.Id, crew.PilotId);
-            Assert.Equal(HttpStatusCode.OK, entity.Result.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, entity.StatusCode);
             contextAirport.Crews.Remove(contextAirport.Crews.LastOrDefault());
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using homework_5_bsa2018.DAL;
 using homework_5_bsa2018.DAL.Models;
 using homework_5_bsa2018.DAL.Repositories;
@@ -47,14 +48,14 @@ namespace homework_6_bsa2018.Tests
 
             var mockContext = new Mock<AirportContext>();
             mockContext.Setup(c => c.Pilots).Returns(mockSet.Object);
-
+     //       mockSet.Setup(c=>c.FirstOrDefaultAsync(item => item.Id==-1))
             var repository = new PilotRepository(mockContext.Object);
 
-            Assert.Throws<ArgumentNullException>(() => repository.Delete(2));
+            Assert.Throws<ArgumentNullException>(() => repository.Delete(-324));
         }
 
         [Fact]
-        public void GetPilot_When_WrongId_ThenReturnsNull()
+        public async void GetPilot_When_WrongId_ThenReturnsNull()
         {
 
             var mockSet = new Mock<DbSet<Pilot>>();
@@ -65,10 +66,10 @@ namespace homework_6_bsa2018.Tests
 
             var mockContext = new Mock<AirportContext>();
             mockContext.Setup(c => c.Pilots).Returns(mockSet.Object);
-
+            mockContext.Setup(c => c.Pilots.FindAsync(-1)).Returns(Task.FromResult((Pilot)null));
             var repository = new PilotRepository(mockContext.Object);
 
-            var result = repository.GetAsync(-1);
+            var result = await repository.GetAsync(-1);
 
             Assert.Null(result);
          }
@@ -85,10 +86,10 @@ namespace homework_6_bsa2018.Tests
 
             var mockContext = new Mock<AirportContext>();
             mockContext.Setup(c => c.Pilots).Returns(mockSet.Object);
-            mockContext.Setup(c => c.Pilots.Find(1)).Returns(mockSet.Object.Find(1));
+            mockContext.Setup(c => c.Pilots.FindAsync(1)).Returns(Task.FromResult(mockSet.Object.Find(1)));
             var repository = new PilotRepository(mockContext.Object);
             
-            var result = repository.GetAsync(1);
+            var result = repository.GetAsync(1).Result;
 
             Assert.Null(result);
         }

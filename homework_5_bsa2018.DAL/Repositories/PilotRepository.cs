@@ -21,8 +21,8 @@ namespace homework_5_bsa2018.DAL.Repositories
             await db.Pilots.ToListAsync();
 
         public async Task<Pilot> GetAsync(int id) =>
-            (await GetAllAsync()).FirstOrDefault(item => item.Id == id);
-
+            await db.Pilots.FindAsync(id);
+            
         public async Task Create(Pilot pilot)
         {
             await db.Pilots.AddAsync(pilot);

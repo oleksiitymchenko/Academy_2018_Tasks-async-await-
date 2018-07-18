@@ -17,6 +17,7 @@ namespace homework_5_bsa2018
             BuildWebHost(args).Run();
         }
 
+
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
