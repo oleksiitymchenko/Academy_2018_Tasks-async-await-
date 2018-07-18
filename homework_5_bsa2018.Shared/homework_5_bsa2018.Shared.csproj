@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\homework_5_bsa2018.DAL\homework_5_bsa2018.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

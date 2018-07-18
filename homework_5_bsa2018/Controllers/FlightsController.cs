@@ -18,7 +18,8 @@ namespace homework_5_bsa2018.Controllers
             _helpers = new Helpers(service, 5000);
         }
        
-        public override async Task<OkObjectResult> Get()
+        [HttpGet("delay")]
+        public async Task<OkObjectResult> GetWithDelay()
         {
             var collectionDTO = await _helpers.GetFlightsDelay();
             if (collectionDTO == null) return new OkObjectResult(StatusCode(400));

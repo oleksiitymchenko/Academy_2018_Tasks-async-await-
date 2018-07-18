@@ -2,6 +2,7 @@
 using AutoMapper;
 using homework_5_bsa2018.Shared.DTOs;
 using homework_5_bsa2018.DAL.Models;
+using homework_5_bsa2018.Shared.LoadDTO;
 
 namespace homework_5_bsa2018.BLL
 {
@@ -45,6 +46,10 @@ namespace homework_5_bsa2018.BLL
                .ForMember(departure => departure.PlaneId, flight => flight.MapFrom(x => x.Plane.Id))
                .ForMember(departure => departure.CrewId, flight => flight.MapFrom(x => x.Crew.Id))
                .ForMember(departure => departure.DepartureTime, flight => flight.MapFrom(x => x.DepartureTime.ToString()));
+
+            CreateMap<LoadCrewDTO, Crew>()
+                .ForMember(x => x.Pilot, opt => opt.MapFrom(i => i.pilot.FirstOrDefault()))
+                .ForMember(x => x.Stewardesses, opt => opt.MapFrom(i => i.stewardess));
         }
     }
 }

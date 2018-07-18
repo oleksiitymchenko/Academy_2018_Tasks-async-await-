@@ -1,0 +1,11 @@
+id,pilot,stewardess
+1,"{"Id":1,"FirstName":"Kody","LastName":"Oberbrunner","Experience":0}","[{"Id":0,"FirstName":"Alyson","LastName":"Koelpin","DateOfBirth":"0001-01-01T00:00:00"},{"Id":76,"FirstName":"Sheila","LastName":"Jacobs","DateOfBirth":"0001-01-01T00:00:00"}]"
+2,"{"Id":2,"FirstName":"Carol","LastName":"Howe","Experience":0}","[{"Id":2,"FirstName":"Bo","LastName":"Kuhic","DateOfBirth":"0001-01-01T00:00:00"},{"Id":77,"FirstName":"Ari","LastName":"Adams","DateOfBirth":"0001-01-01T00:00:00"}]"
+3,"{"Id":3,"FirstName":"Alena","LastName":"Thompson","Experience":0}","[{"Id":3,"FirstName":"Stefan","LastName":"Goyette","DateOfBirth":"0001-01-01T00:00:00"},{"Id":78,"FirstName":"Dejah","LastName":"Homenick","DateOfBirth":"0001-01-01T00:00:00"}]"
+4,"{"Id":4,"FirstName":"Fritz","LastName":"Kling","Experience":0}","[{"Id":4,"FirstName":"Una","LastName":"Cole","DateOfBirth":"0001-01-01T00:00:00"},{"Id":79,"FirstName":"Donnie","LastName":"Sanford","DateOfBirth":"0001-01-01T00:00:00"}]"
+5,"{"Id":5,"FirstName":"Marshall","LastName":"Padberg","Experience":0}","[{"Id":5,"FirstName":"Lia","LastName":"Effertz","DateOfBirth":"0001-01-01T00:00:00"},{"Id":80,"FirstName":"Annie","LastName":"Howe","DateOfBirth":"0001-01-01T00:00:00"}]"
+6,"{"Id":6,"FirstName":"Virgil","LastName":"Davis","Experience":0}","[{"Id":6,"FirstName":"Harmon","LastName":"Yost","DateOfBirth":"0001-01-01T00:00:00"}]"
+7,"{"Id":7,"FirstName":"Bartholome","LastName":"Lockman","Experience":0}","[{"Id":7,"FirstName":"Ellis","LastName":"Adams","DateOfBirth":"0001-01-01T00:00:00"}]"
+8,"{"Id":8,"FirstName":"Rodrigo","LastName":"Flatley","Experience":0}","[{"Id":8,"FirstName":"Lia","LastName":"Monahan","DateOfBirth":"0001-01-01T00:00:00"}]"
+9,"{"Id":9,"FirstName":"Pearl","LastName":"Rippin","Experience":0}","[{"Id":9,"FirstName":"Hans","LastName":"Sipes","DateOfBirth":"0001-01-01T00:00:00"}]"
+10,"{"Id":10,"FirstName":"Derek","LastName":"Emmerich","Experience":0}","[{"Id":10,"FirstName":"Maudie","LastName":"Hilll","DateOfBirth":"0001-01-01T00:00:00"}]"
