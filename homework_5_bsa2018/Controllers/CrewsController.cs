@@ -2,6 +2,8 @@
 using homework_5_bsa2018.BLL.Services;
 using homework_5_bsa2018.Shared.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.Controllers
@@ -19,8 +21,15 @@ namespace homework_5_bsa2018.Controllers
         [HttpGet("Payload")]
         public async Task<IActionResult> LoadCrew()
         {
-            var serv = _service as CrewService;
-            return Ok(await serv.LoadDataAsync());
+            try
+            {
+                var serv = _service as CrewService;
+                return Ok(await serv.LoadDataAsync("http://5b128555d50a5c0014ef1204.mockapi.io/crew"));
+            }
+            catch(Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
     }
