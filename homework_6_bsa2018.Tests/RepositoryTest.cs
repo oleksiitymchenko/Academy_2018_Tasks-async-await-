@@ -37,22 +37,6 @@ namespace homework_6_bsa2018.Tests
             await Assert.ThrowsAsync<ArgumentNullException>(() => repository.Update(-1, data.FirstOrDefault()));
         }
 
-        [Fact]
-        public void DeletePilots_When_WrongId()
-        {
-            var mockSet = new Mock<DbSet<Pilot>>();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            var mockContext = new Mock<AirportContext>();
-            mockContext.Setup(c => c.Pilots).Returns(mockSet.Object);
-     //       mockSet.Setup(c=>c.FirstOrDefaultAsync(item => item.Id==-1))
-            var repository = new PilotRepository(mockContext.Object);
-
-            Assert.Throws<ArgumentNullException>(() => repository.Delete(-324));
-        }
 
         [Fact]
         public async void GetPilot_When_WrongId_ThenReturnsNull()

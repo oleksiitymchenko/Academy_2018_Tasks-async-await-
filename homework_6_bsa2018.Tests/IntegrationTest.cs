@@ -45,25 +45,7 @@ namespace homework_6_bsa2018.Tests
             Assert.IsType<CrewDTO>(entity.Result.Value);
             Assert.Equal(200, entity.Result.StatusCode);
         }
-
-        [Fact]
-        public async void GetEntity_WhenIdIsIncorrect_ReturnsNull()
-        {
-            Start();
-            var entity = await controller.Get(-1);
-            Assert.Equal(400, entity.StatusCode.Value);
-        }
-
-        [Fact]
-        public void CreateEntity_WhenCreate_ReturnsStatusCode200()
-        {
-            Start();
-            var crew = new CrewDTO() {PilotId = 3, StewardressIds = new List<int>(){4,5} };
-            var entity = controller.Post(crew).Result;
-            Assert.Equal(contextAirport.Crews.LastOrDefault().Pilot.Id, crew.PilotId);
-            Assert.Equal(HttpStatusCode.OK, entity.StatusCode);
-            contextAirport.Crews.Remove(contextAirport.Crews.LastOrDefault());
-        }
+  
 
         [Fact]
         public void CreateEntity_WhenCreateModelIsIncorrect_ReturnsStatusCode400()
@@ -76,15 +58,6 @@ namespace homework_6_bsa2018.Tests
             contextAirport.Crews.Remove(contextAirport.Crews.LastOrDefault());
         }
 
-        [Fact]
-        public void DeleteEntity_WhenIdIsCorrect_ReturnsStatusCode200()
-        {
-            Start();
-            var crew = new CrewDTO() {PilotId =3, StewardressIds = new List<int>() { 4, 5 } };
-            crewService.CreateAsync(crew);
-            HttpResponseMessage responseMessage = controller.Delete(contextAirport.Crews.LastOrDefault().Id).Result;
-            Assert.True(responseMessage.StatusCode == HttpStatusCode.OK);
-        }
 
         [Fact]
         public void DeleteEntity_WhenIdIsInCorrect_ReturnsStatusCode400()

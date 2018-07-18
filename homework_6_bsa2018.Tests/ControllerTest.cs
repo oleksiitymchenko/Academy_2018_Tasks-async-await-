@@ -30,28 +30,7 @@ namespace homework_6_bsa2018.Tests
             Assert.Equal(200, message.StatusCode.Value);
         }
 
-        [Fact]
-        public void Put_ModelIsCorrect_Returns_StatusCode200()
-        {
-            int Id = 1;
-            var pilot = new PilotDTO { Id = 1, FirstName = "Sasha", LastName = "Sidorov", Experience = 5 };
-            var ServiceMock = new Mock<IService<PilotDTO>>();
-            ServiceMock.Setup(s => s.UpdateAsync(Id,pilot));
-
-            PilotsController controller = new PilotsController(ServiceMock.Object);
-
-            var context = new ValidationContext(pilot, null, null);
-            var result = new List<ValidationResult>();
-
-            var valid = Validator.TryValidateObject(pilot, context, result, true);
-
-            var message = controller.Put(Id,pilot).Result;
-
-            Assert.True(valid);
-            Assert.Equal(HttpStatusCode.OK, message.StatusCode);
-        }
-
-        [Fact]
+            [Fact]
         public void Put_ModelIsIncorrect_Returns_StatusCode400()
         {
             int Id = 1;
