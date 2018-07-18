@@ -81,7 +81,7 @@ namespace homework_6_bsa2018.Tests
         {
             Start();
             var crew = new CrewDTO() {PilotId =3, StewardressIds = new List<int>() { 4, 5 } };
-            crewService.Create(crew);
+            crewService.CreateAsync(crew);
             HttpResponseMessage responseMessage = controller.Delete(contextAirport.Crews.LastOrDefault().Id).Result;
             Assert.True(responseMessage.StatusCode == HttpStatusCode.OK);
         }

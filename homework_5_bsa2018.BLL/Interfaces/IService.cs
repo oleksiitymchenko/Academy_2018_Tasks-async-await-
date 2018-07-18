@@ -5,10 +5,10 @@ namespace homework_5_bsa2018.BLL.Interfaces
 {
     public interface IService<T>
     {
-        Task<IEnumerable<T>> GetAll();
-        Task<T> Get(int id);
-        Task Create(T crew);
-        Task Update(int id, T crew);
-        Task Delete(int id);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetAsync(int id);
+        Task CreateAsync(T crew);
+        Task UpdateAsync(int id, T crew);
+        Task DeleteAsync(int id);
     }
 }

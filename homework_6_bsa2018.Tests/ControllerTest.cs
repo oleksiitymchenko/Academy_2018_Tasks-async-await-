@@ -19,7 +19,7 @@ namespace homework_6_bsa2018.Tests
         public void Get_WhenListIsNotNull_Returns_Status200()
         {
             var ServiceMock = new Mock<IService<PilotDTO>>();
-            ServiceMock.Setup(s => s.GetAll())
+            ServiceMock.Setup(s => s.GetAllAsync())
                 .Returns(Task.FromResult( new List<PilotDTO>()
                 { new PilotDTO {Id=1,FirstName="Sasha",LastName="Sidorov",Experience=5 } }.AsEnumerable()));
 
@@ -36,7 +36,7 @@ namespace homework_6_bsa2018.Tests
             int Id = 1;
             var pilot = new PilotDTO { Id = 1, FirstName = "Sasha", LastName = "Sidorov", Experience = 5 };
             var ServiceMock = new Mock<IService<PilotDTO>>();
-            ServiceMock.Setup(s => s.Update(Id,pilot));
+            ServiceMock.Setup(s => s.UpdateAsync(Id,pilot));
 
             PilotsController controller = new PilotsController(ServiceMock.Object);
 
@@ -59,7 +59,7 @@ namespace homework_6_bsa2018.Tests
             var ServiceMock = new Mock<IService<PilotDTO>>();
 
             //when model is incorrect this method will throw ArgumentNullException
-            ServiceMock.Setup(s => s.Update(Id, pilot)).Throws(new Exception());
+            ServiceMock.Setup(s => s.UpdateAsync(Id, pilot)).Throws(new Exception());
 
             PilotsController controller = new PilotsController(ServiceMock.Object);
 

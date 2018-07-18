@@ -17,26 +17,26 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<PilotDTO>> GetAll()
+        public async Task<IEnumerable<PilotDTO>> GetAllAsync()
             => Mapper.Map<List<PilotDTO>>
             (await _unitOfWork.Pilots.GetAllAsync());
 
-        public async Task<PilotDTO> Get(int id) =>
+        public async Task<PilotDTO> GetAsync(int id) =>
             Mapper.Map<PilotDTO>(await _unitOfWork.Pilots.GetAsync(id));
 
-        public async Task Create(PilotDTO pilot)
+        public async Task CreateAsync(PilotDTO pilot)
         {
             await _unitOfWork.Pilots.Create(Mapper.Map<Pilot>(pilot));
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task Update(int id, PilotDTO pilot)
+        public async Task UpdateAsync(int id, PilotDTO pilot)
         {
             await _unitOfWork.Pilots.Update(id, Mapper.Map<Pilot>(pilot));
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             _unitOfWork.Pilots.Delete(id);
             await _unitOfWork.SaveAsync();

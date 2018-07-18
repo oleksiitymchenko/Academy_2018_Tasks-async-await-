@@ -20,7 +20,7 @@ namespace homework_5_bsa2018.Controllers
         [HttpGet]
         public virtual async Task<OkObjectResult> Get()
         {
-            var collectionDTO = await _service.GetAll();
+            var collectionDTO = await _service.GetAllAsync();
             if (collectionDTO == null) return new OkObjectResult(StatusCode(400));
             return Ok(collectionDTO);
         }
@@ -29,7 +29,7 @@ namespace homework_5_bsa2018.Controllers
         [HttpGet("{id}")]
         public virtual async Task<OkObjectResult> Get(int id)
         {
-            var collectionDTO = await _service.Get(id);
+            var collectionDTO = await _service.GetAsync(id);
             if (collectionDTO == null) return new OkObjectResult(StatusCode(400)); 
             return Ok(collectionDTO);
         }
@@ -44,7 +44,7 @@ namespace homework_5_bsa2018.Controllers
             }
             try
             {
-                await _service.Create(itemDTO);
+                await _service.CreateAsync(itemDTO);
             }
             catch (Exception)
             {
@@ -63,7 +63,7 @@ namespace homework_5_bsa2018.Controllers
             }
             try
             {
-                await _service.Update(id, itemDTO);
+                await _service.UpdateAsync(id, itemDTO);
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
             catch (Exception)
@@ -78,7 +78,7 @@ namespace homework_5_bsa2018.Controllers
         {
             try
             {
-                await _service.Delete(id);
+                await _service.DeleteAsync(id);
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
             catch (Exception)

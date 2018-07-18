@@ -27,7 +27,7 @@ namespace homework_5_bsa2018.BLL
             ElapsedEventHandler callback = 
                 async (obj, args) =>
             {
-            tcs.SetResult(await _service.GetAll());
+            tcs.SetResult(await _service.GetAllAsync());
                 timer.Enabled = false;
             };
 
