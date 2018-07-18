@@ -19,52 +19,49 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<IEnumerable<CrewDTO>> GetAll() {
-            var x = Mapper.Map<List<CrewDTO>>
-           (_unitOfWork.Crews.GetAllAsync());
-            return x;
-        }
+        public async Task<IEnumerable<CrewDTO>> GetAll() => 
+            Mapper.Map<List<CrewDTO>>
+           (await _unitOfWork.Crews.GetAllAsync());
 
-        public Task<CrewDTO> Get(int id) =>
-            Mapper.Map<CrewDTO>(_unitOfWork.Crews.GetAsync(id));
+        public async Task<CrewDTO> Get(int id) =>
+            Mapper.Map<CrewDTO>(await _unitOfWork.Crews.GetAsync(id));
         
         public async Task Create(CrewDTO crew)
         {
-            var x = TransformCrew(crew);
-            await _unitOfWork.Crews.Create(x);
-            await _unitOfWork.Save();
+            await _unitOfWork.Crews.Create(await TransformCrewAsync(crew));
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task Update(int id, CrewDTO crew)
         {
-            await _unitOfWork.Crews.Update(id, await TransformCrew(crew));
-            await _unitOfWork.Save();
+            await _unitOfWork.Crews.Update(id, await TransformCrewAsync(crew));
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task Delete(int id)
         {
-            await _unitOfWork.Crews.Delete(id);
-            await _unitOfWork.Save();
+             _unitOfWork.Crews.Delete(id);
+            await _unitOfWork.SaveAsync();
 
         }
 
-        private async Task<Crew> TransformCrew(CrewDTO crew)
+        private async Task<Crew> TransformCrewAsync(CrewDTO crew)
         {
 
             var pilot = await _unitOfWork.Pilots.GetAsync(crew.PilotId);
             if (pilot==null) throw new ArgumentNullException();
 
-            var stewardesses = crew.StewardressIds
-                .Select(async s => {
-                    var stew = await _unitOfWork.Stewardesses.GetAsync(s);
+            var stewardesses = await Task.WhenAll(crew.StewardressIds
+                .Select(s => {
+                    var stew =  _unitOfWork.Stewardesses.GetAsync(s);
                     if (stew != null) return stew;
                         else throw new ArgumentNullException();
-            });
+            }));
 
             return new Crew()
             {
                 Pilot = pilot,
-                Stewardesses = stewardesses
+                Stewardesses = stewardesses.ToList()
             };
         }
     }

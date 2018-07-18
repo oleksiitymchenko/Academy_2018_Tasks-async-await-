@@ -25,7 +25,7 @@ namespace homework_6_bsa2018.Tests
             IService<CrewDTO> service = new CrewService(mockUnitOfWork.Object);
             mockUnitOfWork.Setup(o => o.Pilots.GetAsync(1))
                 .Returns(pilot);
-            mockUnitOfWork.Setup(o => o.Save());
+            mockUnitOfWork.Setup(o => o.SaveAsync());
             mockUnitOfWork.Setup(o => o.Stewardesses.GetAsync(1))
                 .Returns(stew1);
             mockUnitOfWork.Setup(o => o.Stewardesses.GetAsync(2))
@@ -57,7 +57,7 @@ namespace homework_6_bsa2018.Tests
             IService<CrewDTO> service = new CrewService(mockUnitOfWork.Object);
             mockUnitOfWork.Setup(o => o.Pilots.GetAsync(1))
                 .Returns((Pilot)null);
-            mockUnitOfWork.Setup(o => o.Save());
+            mockUnitOfWork.Setup(o => o.SaveAsync());
             mockUnitOfWork.Setup(o => o.Stewardesses.GetAsync(1))
                 .Returns((Stewardess)null);
             mockUnitOfWork.Setup(o => o.Stewardesses.GetAsync(2))

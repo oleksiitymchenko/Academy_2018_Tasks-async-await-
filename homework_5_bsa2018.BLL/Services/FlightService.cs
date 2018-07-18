@@ -6,6 +6,7 @@ using homework_5_bsa2018.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Services
 {
@@ -18,41 +19,41 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<FlightDTO> GetAll()
+        public async Task<IEnumerable<FlightDTO>> GetAll()
             => Mapper.Map<List<FlightDTO>>
-            (_unitOfWork.Flights.GetAllAsync());
+            (await _unitOfWork.Flights.GetAllAsync());
 
-        public FlightDTO Get(int id) =>
-            Mapper.Map<FlightDTO>(_unitOfWork.Flights.GetAsync(id));
+        public async Task<FlightDTO> Get(int id) =>
+            Mapper.Map<FlightDTO>(await _unitOfWork.Flights.GetAsync(id));
 
-        public void Create(FlightDTO flight)
+        public async Task Create(FlightDTO flight)
         {
-            _unitOfWork.Flights.Create(TransformFlight(flight));
-            _unitOfWork.Save();
+            await _unitOfWork.Flights.Create(await TransformFlight(flight));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Update(int id,FlightDTO flight)
+        public async Task Update(int id,FlightDTO flight)
         {
-            _unitOfWork.Flights.Update(id, TransformFlight(flight));
-            _unitOfWork.Save();
+            await _unitOfWork.Flights.Update(id, await TransformFlight(flight));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             _unitOfWork.Flights.Delete(id);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
 
-        private Flight TransformFlight(FlightDTO flight)
+        private async Task<Flight> TransformFlight(FlightDTO flight)
         {
             var starttime = DateTime.Parse(flight.StartTime);
             var endtime = DateTime.Parse(flight.FinishTime);
-            var ticketsList = flight.TicketIds
+            var ticketsList = await Task.WhenAll(flight.TicketIds
                 .Select(s => {
                 var ticket = _unitOfWork.Tickets.GetAsync(s);
                 if (ticket != null) return ticket;
                 else throw new ArgumentNullException();
-            }).ToList();
+            }));
 
             return new Flight()
             {
@@ -61,7 +62,7 @@ namespace homework_5_bsa2018.BLL.Services
                 StartPoint = flight.StartPoint,
                 FinishTime = endtime,
                 FinishPoint = flight.FinishPoint,
-                Tickets = ticketsList
+                Tickets = ticketsList.ToList()
             };
         }
     }

@@ -4,6 +4,7 @@ using homework_5_bsa2018.BLL.Interfaces;
 using homework_5_bsa2018.DAL.Interfaces;
 using homework_5_bsa2018.DAL.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Services
 {
@@ -16,29 +17,29 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<PlaneTypeDTO> GetAll()
+        public async Task<IEnumerable<PlaneTypeDTO>> GetAll()
             => Mapper.Map<List<PlaneTypeDTO>>
-            (_unitOfWork.PlaneTypes.GetAllAsync());
+            (await _unitOfWork.PlaneTypes.GetAllAsync());
 
-        public PlaneTypeDTO Get(int id) =>
-            Mapper.Map<PlaneTypeDTO>(_unitOfWork.PlaneTypes.GetAsync(id));
+        public async Task<PlaneTypeDTO> Get(int id) =>
+            Mapper.Map<PlaneTypeDTO>(await _unitOfWork.PlaneTypes.GetAsync(id));
 
-        public void Create(PlaneTypeDTO pltype)
+        public async Task Create(PlaneTypeDTO pltype)
         {
-            _unitOfWork.PlaneTypes.Create(Mapper.Map<PlaneType>(pltype));
-            _unitOfWork.Save();
+            await _unitOfWork.PlaneTypes.Create(Mapper.Map<PlaneType>(pltype));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Update(int id,PlaneTypeDTO pltype)
+        public async Task Update(int id,PlaneTypeDTO pltype)
         {
-            _unitOfWork.PlaneTypes.Update(id, Mapper.Map<PlaneType>(pltype));
-            _unitOfWork.Save();
+            await _unitOfWork.PlaneTypes.Update(id, Mapper.Map<PlaneType>(pltype));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             _unitOfWork.PlaneTypes.Delete(id);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
     }
 }

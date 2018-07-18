@@ -4,6 +4,7 @@ using homework_5_bsa2018.BLL.Interfaces;
 using homework_5_bsa2018.DAL.Interfaces;
 using homework_5_bsa2018.DAL.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Services
 {
@@ -16,29 +17,29 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<StewardessDTO> GetAll()
+        public async Task<IEnumerable<StewardessDTO>> GetAll()
             => Mapper.Map<List<StewardessDTO>>
-            (_unitOfWork.Stewardesses.GetAllAsync());
+            (await _unitOfWork.Stewardesses.GetAllAsync());
 
-        public StewardessDTO Get(int id) =>
-            Mapper.Map<StewardessDTO>(_unitOfWork.Stewardesses.GetAsync(id));
+        public async Task<StewardessDTO> Get(int id) =>
+            Mapper.Map<StewardessDTO>(await _unitOfWork.Stewardesses.GetAsync(id));
 
-        public void Create(StewardessDTO stew)
+        public async Task Create(StewardessDTO stew)
         {
-            _unitOfWork.Stewardesses.Create(Mapper.Map<Stewardess>(stew));
-            _unitOfWork.Save();
+            await _unitOfWork.Stewardesses.Create(Mapper.Map<Stewardess>(stew));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Update(int id, StewardessDTO stew)
+        public async Task Update(int id, StewardessDTO stew)
         {
-            _unitOfWork.Stewardesses.Update(id, Mapper.Map<Stewardess>(stew));
-            _unitOfWork.Save();
+            await _unitOfWork.Stewardesses.Update(id, Mapper.Map<Stewardess>(stew));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             _unitOfWork.Stewardesses.Delete(id);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
     }
 }

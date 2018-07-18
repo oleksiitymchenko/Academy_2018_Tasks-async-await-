@@ -14,6 +14,6 @@ namespace homework_5_bsa2018.DAL.Interfaces
         IRepository<Stewardess> Stewardesses { get; }
         IRepository<Ticket> Tickets { get; }
 
-        Task Save();
+        Task SaveAsync();
     }
 }

@@ -4,6 +4,7 @@ using homework_5_bsa2018.BLL.Interfaces;
 using homework_5_bsa2018.DAL.Interfaces;
 using homework_5_bsa2018.DAL.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Services
 {
@@ -16,29 +17,29 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<TicketDTO> GetAll()
+        public async Task<IEnumerable<TicketDTO>> GetAll()
             => Mapper.Map<List<TicketDTO>>
-            (_unitOfWork.Tickets.GetAllAsync());
+            (await _unitOfWork.Tickets.GetAllAsync());
 
-        public TicketDTO Get(int id) =>
-            Mapper.Map<TicketDTO>(_unitOfWork.Tickets.GetAsync(id));
+        public async Task<TicketDTO> Get(int id) =>
+            Mapper.Map<TicketDTO>(await _unitOfWork.Tickets.GetAsync(id));
 
-        public void Create(TicketDTO ticket)
+        public async Task Create(TicketDTO ticket)
         {
-            _unitOfWork.Tickets.Create(Mapper.Map<Ticket>(ticket));
-            _unitOfWork.Save();
+            await _unitOfWork.Tickets.Create(Mapper.Map<Ticket>(ticket));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Update(int id, TicketDTO ticket)
+        public async Task Update(int id, TicketDTO ticket)
         {
-            _unitOfWork.Tickets.Update(id, Mapper.Map<Ticket>(ticket));
-            _unitOfWork.Save();
+            await _unitOfWork.Tickets.Update(id, Mapper.Map<Ticket>(ticket));
+            await _unitOfWork.SaveAsync();
         }
         
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             _unitOfWork.Tickets.Delete(id);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
     }
 }

@@ -4,6 +4,7 @@ using homework_5_bsa2018.BLL.Interfaces;
 using homework_5_bsa2018.DAL.Interfaces;
 using homework_5_bsa2018.DAL.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Services
 {
@@ -16,29 +17,29 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<PilotDTO> GetAll()
+        public async Task<IEnumerable<PilotDTO>> GetAll()
             => Mapper.Map<List<PilotDTO>>
-            (_unitOfWork.Pilots.GetAllAsync());
+            (await _unitOfWork.Pilots.GetAllAsync());
 
-        public PilotDTO Get(int id) =>
-            Mapper.Map<PilotDTO>(_unitOfWork.Pilots.GetAsync(id));
+        public async Task<PilotDTO> Get(int id) =>
+            Mapper.Map<PilotDTO>(await _unitOfWork.Pilots.GetAsync(id));
 
-        public void Create(PilotDTO pilot)
+        public async Task Create(PilotDTO pilot)
         {
-            _unitOfWork.Pilots.Create(Mapper.Map<Pilot>(pilot));
-            _unitOfWork.Save();
+            await _unitOfWork.Pilots.Create(Mapper.Map<Pilot>(pilot));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Update(int id, PilotDTO pilot)
+        public async Task Update(int id, PilotDTO pilot)
         {
-            _unitOfWork.Pilots.Update(id, Mapper.Map<Pilot>(pilot));
-            _unitOfWork.Save();
+            await _unitOfWork.Pilots.Update(id, Mapper.Map<Pilot>(pilot));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             _unitOfWork.Pilots.Delete(id);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
     }
 

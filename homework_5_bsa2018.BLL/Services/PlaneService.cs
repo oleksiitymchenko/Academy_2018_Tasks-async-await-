@@ -5,6 +5,7 @@ using homework_5_bsa2018.DAL.Interfaces;
 using homework_5_bsa2018.DAL.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Services
 {
@@ -17,34 +18,34 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<PlaneDTO> GetAll()
+        public async Task<IEnumerable<PlaneDTO>> GetAll()
             => Mapper.Map<List<PlaneDTO>>
-            (_unitOfWork.Planes.GetAllAsync());
+            (await _unitOfWork.Planes.GetAllAsync());
 
-        public PlaneDTO Get(int id) =>
-            Mapper.Map<PlaneDTO>(_unitOfWork.Planes.GetAsync(id));
+        public async Task<PlaneDTO> Get(int id) =>
+            Mapper.Map<PlaneDTO>(await _unitOfWork.Planes.GetAsync(id));
 
-        public void Create(PlaneDTO plane)
+        public async Task Create(PlaneDTO plane)
         {
-            _unitOfWork.Planes.Create(TransformPlane(plane));
-            _unitOfWork.Save();
+            await _unitOfWork.Planes.Create(await TransformPlane(plane));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Update(int id, PlaneDTO plane)
+        public async Task Update(int id, PlaneDTO plane)
         {
-            _unitOfWork.Planes.Update(id, TransformPlane(plane));
-            _unitOfWork.Save();
+            await _unitOfWork.Planes.Update(id, await TransformPlane(plane));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             _unitOfWork.Planes.Delete(id);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
 
-        private Plane TransformPlane(PlaneDTO plane)
+        private async Task<Plane> TransformPlane(PlaneDTO plane)
         {
-            var type = _unitOfWork.PlaneTypes.GetAsync(plane.TypePlaneId);
+            var type = await _unitOfWork.PlaneTypes.GetAsync(plane.TypePlaneId);
             if (type == null) throw new ArgumentNullException();
             var lifetime = TimeSpan.Parse(plane.LifeTime);
             var created = DateTime.Parse(plane.Created);

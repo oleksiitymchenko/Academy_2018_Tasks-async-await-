@@ -91,7 +91,7 @@ namespace homework_5_bsa2018.DAL
             }
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await db.SaveChangesAsync();
         }

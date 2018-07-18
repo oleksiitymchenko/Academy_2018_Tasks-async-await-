@@ -5,6 +5,7 @@ using homework_5_bsa2018.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using AutoMapper;
+using System.Threading.Tasks;
 
 namespace homework_5_bsa2018.BLL.Services
 {
@@ -17,36 +18,36 @@ namespace homework_5_bsa2018.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<DepartureDTO> GetAll()
+        public async Task<IEnumerable<DepartureDTO>> GetAll()
             => Mapper.Map<List<DepartureDTO>>
-            (_unitOfWork.Departures.GetAllAsync());
+            (await _unitOfWork.Departures.GetAllAsync());
 
-        public DepartureDTO Get(int id) =>
-            Mapper.Map<DepartureDTO>(_unitOfWork.Departures.GetAsync(id));
+        public async Task<DepartureDTO> Get(int id) =>
+            Mapper.Map<DepartureDTO>(await _unitOfWork.Departures.GetAsync(id));
 
-        public void Create(DepartureDTO departure)
+        public async Task Create(DepartureDTO departure)
         {
-            _unitOfWork.Departures.Create(TransformDeparture(departure));
-            _unitOfWork.Save();
+           await _unitOfWork.Departures.Create(await TransformDeparture(departure));
+           await _unitOfWork.SaveAsync();
         }
 
-        public void Update(int id,DepartureDTO departure)
+        public async Task Update(int id,DepartureDTO departure)
         {
-            _unitOfWork.Departures.Update(id, TransformDeparture(departure));
-            _unitOfWork.Save();
+            await _unitOfWork.Departures.Update(id, await TransformDeparture(departure));
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             _unitOfWork.Departures.Delete(id);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
 
-        private Departure TransformDeparture(DepartureDTO departure)
+        private async Task<Departure> TransformDeparture(DepartureDTO departure)
         {
             var departureTime = DateTime.Parse(departure.DepartureTime);
-            var plane = _unitOfWork.Planes.GetAsync(departure.PlaneId);
-            var crew = _unitOfWork.Crews.GetAsync(departure.CrewId);
+            var plane = await _unitOfWork.Planes.GetAsync(departure.PlaneId);
+            var crew = await _unitOfWork.Crews.GetAsync(departure.CrewId);
             if (crew == null || plane == null) throw new ArgumentNullException();
 
             return new Departure()
