@@ -1,2 +1,2 @@
-# Academy 2018 Code testing :computer:
-Homework #6
+# Academy 2018 Tasks, async/await :computer:
+Homework #7
